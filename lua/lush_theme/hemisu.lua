@@ -13,73 +13,11 @@
 --  "Y8P"  "Y888888P'"Y88P"`Y8P' "YY8P8P88P     `Y8
 --
 
+
 local lush = require('lush')
-local hsl = lush.hsl
-
-local black            = hsl('#000000')
-local white            = hsl('#FFFFFF')
-local almostWhite      = hsl('#EEEEEE')
-local almostBlack      = hsl('#111111')
-local middleDarkGrey   = hsl('#777777')
-local middleLightGrey  = hsl('#999999')
-local lightGrey        = hsl('#BBBBBB')
-local darkGrey         = hsl('#444444')
-
-local darkPink         = hsl('#63001C')
-local middleDarkPink   = hsl('#FF0055')
-local middleLightPink  = hsl('#D65E76')
-local lightPink        = hsl('#FFAFAF')
-
-local darkBlue         = hsl('#005F87')
-local middleDarkBlue   = hsl('#538192')
-local middleLightBlue  = hsl('#9FD3E6')
-local lightBlue        = hsl('#CBE4EE')
-
-local darkGreen        = hsl('#5F5F00')
-local middleDarkGreen  = hsl('#739200')
-local middleLightGreen = hsl('#B1D631')
-local lightGreen       = hsl('#BBFFAA')
-
-local darkTan          = hsl('#503D15')
-local lightTan         = hsl('#ECE1C8')
-
-local bg, norm, comment, dimmed, subtle, faint, accent1, accent2, accent3, accent4
-local normRed, normGreen, normBlue, faintRed, faintGreen, faintBlue
-if vim.api.nvim_get_option('background') == 'dark' then
-  bg         = black
-  norm       = almostWhite
-  comment    = middleDarkGrey
-  dimmed     = middleLightGrey
-  subtle     = darkGrey
-  faint      = almostBlack
-  accent1    = middleLightBlue
-  accent2    = middleLightGreen
-  accent3    = lightGreen
-  accent4    = lightTan
-  normRed    = middleLightPink
-  normGreen  = middleLightGreen
-  normBlue   = middleLightBlue
-  faintRed   = darkPink
-  faintGreen = darkGreen
-  faintBlue  = darkBlue
-else
-  bg         = white
-  norm       = almostBlack
-  comment    = middleLightGrey
-  dimmed     = middleDarkGrey
-  subtle     = lightGrey
-  faint      = almostWhite
-  accent1    = middleDarkBlue
-  accent2    = middleDarkGreen
-  accent3    = middleDarkPink
-  accent4    = darkTan
-  normRed    = middleDarkPink
-  normGreen  = middleDarkGreen
-  normBlue   = middleDarkBlue
-  faintRed   = lightPink
-  faintGreen = lightGreen
-  faintBlue  = lightBlue
-end
+-- Support reloading when changing 'background'
+package.loaded['lush_theme.hemisu_colors']=nil
+local c = require('lush_theme.hemisu_colors')
 
 local theme = lush(function()
   return {
@@ -95,65 +33,65 @@ local theme = lush(function()
     -- styling for that group (meaning they mostly get styled as Normal)
     -- or leave them commented to apply vims default colouring or linking.
 
-    Comment      { fg = comment, gui = "italic" }, -- any comment
+    Comment      { fg = c.comment, gui = "italic" }, -- any comment
     -- ColorColumn  { }, -- used for the columns set with 'colorcolumn'
     -- Conceal      { }, -- placeholder characters substituted for concealed text (see 'conceallevel')
-    Cursor       { fg = bg, bg = accent3}, -- character under the cursor
+    Cursor       { fg = c.bg, bg = c.accent3}, -- character under the cursor
     -- lCursor      { }, -- the character under the cursor when |language-mapping| is used (see 'guicursor')
     -- CursorIM     { }, -- like Cursor, but used when in IME mode |CursorIM|
-    CursorLine   {bg = faint }, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
+    CursorLine   {bg = c.faint }, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
     CursorColumn {CursorLine }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
-    Directory    {fg = accent1 }, -- directory names (and other special names in listings)
+    Directory    {fg = c.accent1 }, -- directory names (and other special names in listings)
     Constant       {Directory }, -- (preferred) any constant
     Number         {Constant }, --   a number constant: 234, 0xff
     Special        {Constant }, -- (preferred) any special symbol
     PreProc        { Constant}, -- (preferred) generic Preprocessor
-    DiffAdd      {bg = faintGreen }, -- diff mode: Added line |diff.txt|
-    DiffChange   {bg = faintRed }, -- diff mode: Changed line |diff.txt|
-    DiffDelete   {fg = normRed, bg = faintRed }, -- diff mode: Deleted line |diff.txt|
-    DiffText     { bg = faintRed, gui = 'bold'}, -- diff mode: Changed text within a changed line |diff.txt|
+    DiffAdd      {bg = c.faintGreen,fg = c.norm }, -- diff mode: Added line |diff.txt|
+    DiffChange   {bg = c.faintRed, fg = c.norm }, -- diff mode: Changed line |diff.txt|
+    DiffDelete   {fg = c.normRed, bg = c.faintRed }, -- diff mode: Deleted line |diff.txt|
+    DiffText     { bg = c.faintRed, fg=c.norm, gui = 'bold'}, -- diff mode: Changed text within a changed line |diff.txt|
     -- EndOfBuffer  { }, -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
     TermCursor   { }, -- cursor in a focused terminal
     -- TermCursorNC { }, -- cursor in an unfocused terminal
-    ErrorMsg     { bg = faintRed}, -- error messages on the command line
+    ErrorMsg     { bg = c.faintRed}, -- error messages on the command line
     Error          {ErrorMsg }, -- (preferred) any erroneous construct
     WarningMsg   {ErrorMsg }, -- warning messages
-    VertSplit    {fg = subtle, bg = faint }, -- the column separating vertically split windows
-    Folded       {fg = comment, bg = faint }, -- line used for closed folds
-    SignColumn   { fg = norm }, -- column where |signs| are displayed
+    VertSplit    {fg = c.subtle, bg = c.faint }, -- the column separating vertically split windows
+    Folded       {fg = c.comment, bg = c.faint }, -- line used for closed folds
+    SignColumn   { fg = c.norm }, -- column where |signs| are displayed
     FoldColumn   { SignColumn}, -- 'foldcolumn'
-    IncSearch    {bg = faintBlue }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
+    IncSearch    {bg = c.faintBlue }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
     -- Substitute   { }, -- |:substitute| replacement text highlighting
     -- CursorLineNr { }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-    MatchParen   { fg = accent1, bg = faint, gui = 'bold'}, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+    MatchParen   { fg = c.accent1, bg = c.faint, gui = 'bold'}, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
     -- MsgArea      { }, -- Area for messages and cmdline
     -- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
-    NonText      {fg = subtle }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
+    NonText      {fg = c.subtle }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
     LineNr       {NonText }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
     SpecialKey   {NonText }, -- Unprintable character text displayed differently from what it really is.  But not 'listchars' whitespace. |hl-Whitespace|
-    Normal       {fg = norm, bg = bg }, -- normal text
+    Normal       {fg = c.norm, bg = c.bg }, -- normal text
     -- NormalFloat  { }, -- Normal text in floating windows.
     -- NormalNC     { }, -- normal text in non-current windows
-    Pmenu        {bg = faint }, -- Popup menu: normal item.
-    PmenuSel     {bg = faintBlue }, -- Popup menu: selected item.
-    PmenuSbar    {bg = subtle }, -- Popup menu: scrollbar.
-    PmenuThumb   { bg = norm}, -- Popup menu: Thumb of the scrollbar.
+    Pmenu        {bg = c.faint }, -- Popup menu: normal item.
+    PmenuSel     {bg = c.faintBlue }, -- Popup menu: selected item.
+    PmenuSbar    {bg = c.subtle }, -- Popup menu: scrollbar.
+    PmenuThumb   { bg = c.norm}, -- Popup menu: Thumb of the scrollbar.
     -- QuickFixLine { }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
-    Search       {bg = faintGreen }, -- Last search pattern highlighting (see 'hlsearch').  Also used for similar items that need to stand out.
-    SpellBad     {sp = normRed, gui = 'undercurl' }, -- Word that is not recognized by the spellchecker. |spell| Combined with the highlighting used otherwise. 
-    SpellCap     {sp = accent1, gui = 'undercurl' }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
-    SpellLocal   {sp = accent4, gui = 'undercurl' }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
-    SpellRare    {sp = normGreen, gui = 'undercurl' }, -- Word that is recognized by the spellchecker as one that is hardly ever used.  |spell| Combined with the highlighting used otherwise.
-    StatusLine   {fg = norm, bg = faint, gui = 'bold' }, -- status line of current window
-    StatusLineNC { fg = dimmed, bg = faint}, -- status lines of not-current windows Note: if this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
+    Search       {bg = c.faintGreen }, -- Last search pattern highlighting (see 'hlsearch').  Also used for similar items that need to stand out.
+    SpellBad     {sp = c.normRed, gui = 'undercurl' }, -- Word that is not recognized by the spellchecker. |spell| Combined with the highlighting used otherwise. 
+    SpellCap     {sp = c.accent1, gui = 'undercurl' }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
+    SpellLocal   {sp = c.accent4, gui = 'undercurl' }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
+    SpellRare    {sp = c.normGreen, gui = 'undercurl' }, -- Word that is recognized by the spellchecker as one that is hardly ever used.  |spell| Combined with the highlighting used otherwise.
+    StatusLine   {fg = c.norm, bg = c.faint, gui = 'bold' }, -- status line of current window
+    StatusLineNC { fg = c.dimmed, bg = c.faint}, -- status lines of not-current windows Note: if this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
     TabLineFill  {StatusLineNC }, -- tab pages line, where there are no labels
-    TabLine      {fg = dimmed, bg = faint }, -- tab pages line, not active tab page label
+    TabLine      {fg = c.dimmed, bg = c.faint }, -- tab pages line, not active tab page label
     TabLineSel   {gui = 'bold' }, -- tab pages line, active tab page label
-    Title        { fg = accent4, gui = 'bold'}, -- titles for output from ":set all", ":autocmd" etc.
+    Title        { fg = c.accent4, gui = 'bold'}, -- titles for output from ":set all", ":autocmd" etc.
     MoreMsg      {Title }, -- |more-prompt|
     Question     {MoreMsg }, -- |hit-enter| prompt and yes/no questions
     ModeMsg      {MoreMsg }, -- 'showmode' message (e.g., "-- INSERT -- ")
-    Visual       {bg = faintBlue }, -- Visual mode selection
+    Visual       {bg = c.faintBlue }, -- Visual mode selection
     -- VisualNOS    { }, -- Visual mode selection when vim is "Not Owning the Selection".
     -- Whitespace   { }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
     WildMenu     { IncSearch}, -- current match in 'wildmenu' completion
@@ -164,7 +102,7 @@ local theme = lush(function()
     -- default,
     -- Uncomment and edit if you want more specific syntax highlighting.
 
-    String         { fg = accent2}, --   a string constant: "this is a string"
+    String         { fg = c.accent2}, --   a string constant: "this is a string"
     -- Character      { }, --  a character constant: 'c', '\n'
     -- Boolean        { }, --  a boolean constant: TRUE, false
     -- Float          { }, --    a floating point constant: 2.3e10
@@ -176,7 +114,7 @@ local theme = lush(function()
     -- Repeat         { }, --   for, do, while, etc.
     -- Label          { }, --    case, default, etc.
     -- Operator       { }, -- "sizeof", "+", "*", etc.
-    Keyword        {fg = accent2, gui = 'bold' }, --  any other keyword
+    Keyword        {fg = c.accent2, gui = 'bold' }, --  any other keyword
     -- Exception      { }, --  try, catch, throw
 
     -- Include        { }, --  preprocessor #include
@@ -184,7 +122,7 @@ local theme = lush(function()
     -- Macro          { }, --    same as Define
     -- PreCondit      { }, --  preprocessor #if, #else, #endif, etc.
 
-    Type           {fg = accent3 }, -- (preferred) int, long, char, etc.
+    Type           {fg = c.accent3 }, -- (preferred) int, long, char, etc.
     Statement      {Type }, -- (preferred) any statement
     -- StorageClass   { }, -- static, register, volatile, etc.
     -- Structure      { }, --  struct, union, enum, etc.
@@ -192,11 +130,11 @@ local theme = lush(function()
 
     -- SpecialChar    { }, --  special character in a constant
     -- Tag            { }, --    you can use CTRL-] on this
-    Delimiter      {fg = dimmed }, --  character that needs attention
+    Delimiter      {fg = c.dimmed }, --  character that needs attention
     -- SpecialComment { }, -- special things inside a comment
     -- Debug          { }, --    debugging statements
 
-    Underlined { fg = accent1, gui = 'underline' }, -- (preferred) text that stands out, HTML links
+    Underlined { fg = c.accent1, gui = 'underline' }, -- (preferred) text that stands out, HTML links
     -- Bold       { gui = "bold" },
     -- Italic     { gui = "italic" },
 
@@ -204,7 +142,7 @@ local theme = lush(function()
     -- Ignore         { }, -- (preferred) left blank, hidden  |hl-Ignore|
 
 
-    Todo           {fg = normRed, gui = 'bold' }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+    Todo           {fg = c.normRed, gui = 'bold' }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
 
     -- These groups are for the native LSP client. Some other LSP clients may
     -- use these groups, or use their own. Consult your LSP client's
@@ -297,9 +235,9 @@ local theme = lush(function()
     -- TSLiteral            { };    -- Literal text.
     TSURI                { Underlined},    -- Any URI like a link or email.
        
-    User1 {fg = bg, bg = normGreen},
-    User2 {fg = bg, bg = normRed},
-    User3 {fg = bg, bg = normBlue},
+    User1 {fg = c.bg, bg = c.normGreen},
+    User2 {fg = c.bg, bg = c.normRed},
+    User3 {fg = c.bg, bg = c.normBlue},
 
   }
 end)
